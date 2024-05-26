@@ -3,11 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth2 Callback Handler</title>
+    <title>OAuth Callback Handler</title>
 </head>
 <body>
     <h1>Processing OAuth Callback...</h1>
     <div id="output"></div>
-    <script src="oauth-callback-handler.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+
+            const outputElement = document.getElementById('output');
+            if (code) {
+                outputElement.textContent = 'Authorization code received: ' + code;
+                // Optionally, initiate a fetch to a serverless function to exchange the code for tokens
+                exchangeCodeForToken(code);
+            } else if (error) {
+                outputElement.textContent = 'Error during authorization: ' + error;
+            } else {
+                outputElement.textContent = 'No authorization code or error received.';
+            }
+        });
+
+        function exchangeCodeForToken(code) {
+            // Placeholder for making a request to a server-side endpoint
+            console.log('Exchange the code for tokens here.');
+        }
+    </script>
 </body>
 </html>
